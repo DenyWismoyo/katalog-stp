@@ -1,0 +1,762 @@
+/* =========================================================================
+   KATALOG DIGITAL SOLO TECHNOPARK — Global Design System
+   Single Source of Truth untuk seluruh token warna, spacing, animasi, dan
+   utility class di aplikasi ini. Jangan hardcode nilai di komponen.
+   ========================================================================= */
+
+@import "tailwindcss";
+
+/* Font: Inter + Plus Jakarta Sans di-load via next/font/google di layout.tsx
+   CSS variables: --font-inter dan --font-jakarta tersedia via html class */
+
+/* =========================================================================
+   BASE LAYER — CSS Custom Properties (Design Tokens)
+   ========================================================================= */
+@layer base {
+  :root {
+    /* --- Canvas & Surface --- */
+    --bg-canvas:           #f8fafc;           /* Latar dasar halaman (Slate 50) */
+    --bg-surface:          #ffffff;           /* Kartu utama & panel */
+    --bg-surface-elevated: #ffffff;           /* Modal & floating sheet */
+    --bg-surface-muted:    #f1f5f9;           /* Input/badge/section alternatif */
+    --bg-surface-hover:    #f0f7ff;           /* Aksen hover biru pastel */
+    --bg-surface-blue:     #eff6ff;           /* Tint biru sangat tipis */
+
+    /* --- Brand Blue Palette (Solo Technopark) --- */
+    --primary-50:  #eff6ff;
+    --primary-100: #dbeafe;
+    --primary-200: #bfdbfe;
+    --primary-300: #93c5fd;
+    --primary-400: #60a5fa;
+    --primary-500: #3b82f6;
+    --primary-600: #0284c7;   /* Warna Utama Brand STP */
+    --primary-700: #0369a1;   /* Deep Corporate Sapphire */
+    --primary-800: #075985;
+    --primary-900: #0c4a6e;
+    --primary-glow: rgba(2, 132, 199, 0.12);
+    --primary-glow-strong: rgba(2, 132, 199, 0.25);
+
+    /* --- Accent Emerald (Status Positif/HAKI) --- */
+    --accent-emerald-50:  #ecfdf5;
+    --accent-emerald-500: #10b981;
+    --accent-emerald-600: #059669;
+    --accent-emerald-700: #047857;
+
+    /* --- Accent Gold (Featured / Unggulan) --- */
+    --accent-gold-50:  #fffbeb;
+    --accent-gold-400: #fbbf24;
+    --accent-gold-500: #f59e0b;
+    --accent-gold-700: #b45309;
+
+    /* --- Text Hierarchy --- */
+    --text-title:   #0f172a;   /* Slate 900 — heading utama */
+    --text-body:    #334155;   /* Slate 700 — body */
+    --text-muted:   #64748b;   /* Slate 500 — caption/info sekunder */
+    --text-subtle:  #94a3b8;   /* Slate 400 — placeholder */
+    --text-inverse: #ffffff;   /* Teks di atas background gelap */
+
+    /* --- Borders --- */
+    --border-subtle:  #f1f5f9;
+    --border-default: #e2e8f0;  /* Slate 200 */
+    --border-strong:  #cbd5e1;  /* Slate 300 */
+    --border-blue:    rgba(2, 132, 199, 0.35);
+    --border-focus:   rgba(2, 132, 199, 0.5);
+
+    /* --- Shadows (Apple/Clean SaaS) --- */
+    --shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+    --shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
+    --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+    --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.06), 0 4px 6px -4px rgba(15, 23, 42, 0.03);
+    --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
+    --shadow-2xl: 0 32px 64px -12px rgba(15, 23, 42, 0.12);
+    --shadow-blue: 0 10px 25px -5px rgba(2, 132, 199, 0.2);
+    --shadow-blue-lg: 0 20px 40px -8px rgba(2, 132, 199, 0.25);
+    --glow-card-hover: 0 8px 32px rgba(2, 132, 199, 0.18);
+    --glow-primary: 0 0 40px rgba(2, 132, 199, 0.15), 0 0 80px rgba(2, 132, 199, 0.08);
+
+    /* --- Spacing & Border Radius Scale --- */
+    --radius-xs:   0.25rem;
+    --radius-sm:   0.5rem;
+    --radius-md:   0.75rem;
+    --radius-lg:   1rem;
+    --radius-xl:   1.25rem;
+    --radius-2xl:  1.5rem;
+    --radius-3xl:  2rem;
+    --radius-pill: 9999px;
+
+    /* --- Transition Easings --- */
+    --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-in:     cubic-bezier(0.4, 0, 1, 1);
+    --ease-out:    cubic-bezier(0, 0, 0.2, 1);
+
+    /* --- Duration Scale --- */
+    --duration-instant: 100ms;
+    --duration-fast:    150ms;
+    --duration-normal:  250ms;
+    --duration-slow:    400ms;
+    --duration-slower:  600ms;
+
+    /* --- Z-Index Scale --- */
+    --z-base:     0;
+    --z-raised:   10;
+    --z-dropdown: 100;
+    --z-sticky:   200;
+    --z-overlay:  300;
+    --z-modal:    400;
+    --z-toast:    500;
+
+    /* --- Gradients --- */
+    --gradient-brand: linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #1d4ed8 100%);
+    --gradient-brand-soft: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    --gradient-hero-mesh:
+      radial-gradient(ellipse at 50% -10%, rgba(186, 230, 253, 0.6) 0%, transparent 60%),
+      radial-gradient(ellipse at 85% 20%, rgba(147, 197, 253, 0.35) 0%, transparent 50%),
+      radial-gradient(ellipse at 15% 20%, rgba(199, 210, 254, 0.4) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 100%, rgba(241, 245, 249, 0.8) 0%, transparent 40%);
+
+    /* --- Tailwind Standard Tokens --- */
+    --background: #f8fafc;
+    --foreground: #0f172a;
+    --card: #ffffff;
+    --card-foreground: #0f172a;
+    --primary: #0284c7;
+    --primary-foreground: #ffffff;
+    --muted: #64748b;
+    --border: #e2e8f0;
+  }
+
+  /* --- Base Typography --- */
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--bg-canvas);
+    color: var(--text-body);
+    font-family: var(--font-inter, 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+    overflow-x: hidden;
+    min-height: 100dvh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* --- Heading Typography — Plus Jakarta Sans (via next/font) --- */
+  h1, h2, h3, h4 {
+    font-family: var(--font-jakarta, 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif);
+    letter-spacing: -0.02em;
+    color: var(--text-title);
+  }
+
+  /* --- Focus Ring Global --- */
+  *:focus-visible {
+    outline: 2px solid var(--primary-600);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* --- Selection Color Brand --- */
+  ::selection {
+    background-color: var(--primary-100);
+    color: var(--primary-700);
+  }
+}
+
+/* =========================================================================
+   UTILITY LAYER — Semantic UI Classes
+   ========================================================================= */
+@layer utilities {
+
+  /* ---- Layout Utilities ---- */
+  .stp-container {
+    width: 100%;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .stp-section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  @media (min-width: 768px) {
+    .stp-section {
+      padding-top: 5.5rem;
+      padding-bottom: 5.5rem;
+    }
+  }
+
+  /* ---- Typography Scale ---- */
+  .stp-heading-display {
+    font-family: var(--font-jakarta, 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif);
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--text-title);
+  }
+
+  .stp-heading-xl {
+    font-family: var(--font-jakarta, 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif);
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    color: var(--text-title);
+  }
+
+  .stp-heading-lg {
+    font-family: var(--font-jakarta, 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif);
+    font-size: clamp(1.25rem, 2.5vw, 2rem);
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    color: var(--text-title);
+  }
+
+  .stp-heading-md {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: -0.015em;
+    color: var(--text-title);
+  }
+
+  .stp-label-eyebrow {
+    display: inline-block;
+    font-size: 0.6875rem;  /* 11px */
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--primary-600);
+  }
+
+  .stp-text-body {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--text-body);
+  }
+
+  .stp-text-muted {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ---- Card Utilities ---- */
+  .stp-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    box-shadow: var(--shadow-sm);
+    border-radius: var(--radius-2xl);
+    transition: all var(--duration-normal) var(--ease-spring);
+  }
+
+  .stp-card-interactive {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    box-shadow: var(--shadow-sm);
+    border-radius: var(--radius-2xl);
+    transition: all var(--duration-normal) var(--ease-spring);
+    cursor: pointer;
+  }
+
+  .stp-card-interactive:hover {
+    border-color: var(--border-blue);
+    box-shadow: var(--shadow-lg), var(--glow-card-hover);
+    transform: translateY(-3px);
+  }
+
+  /* ---- Glass Utilities ---- */
+  .glass-header-clean {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.9), var(--shadow-sm);
+  }
+
+  .glass-card-clean {
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-default);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: var(--shadow-xl);
+  }
+
+  /* ---- Filter Pill Utilities ---- */
+  .stp-pill-filter {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 0.375rem 1rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid var(--border-default);
+    background-color: var(--bg-surface);
+    color: var(--text-body);
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-smooth);
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  .stp-pill-filter:hover {
+    background-color: var(--bg-surface-hover);
+    border-color: var(--border-blue);
+    color: var(--primary-700);
+  }
+
+  .stp-pill-filter.active {
+    background-color: var(--primary-600);
+    border-color: var(--primary-600);
+    color: white;
+    box-shadow: var(--shadow-blue);
+  }
+
+  /* ---- Input Utilities ---- */
+  .stp-input-clean {
+    width: 100%;
+    height: 2.75rem;
+    padding: 0 1rem 0 2.75rem;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-default);
+    background-color: var(--bg-surface);
+    color: var(--text-title);
+    font-size: 0.875rem;
+    transition: all var(--duration-fast) var(--ease-smooth);
+    box-shadow: var(--shadow-xs);
+  }
+
+  .stp-input-clean:focus {
+    outline: none;
+    border-color: var(--primary-600);
+    box-shadow: 0 0 0 3px var(--primary-glow), var(--shadow-sm);
+  }
+
+  .stp-input-clean::placeholder {
+    color: var(--text-subtle);
+  }
+
+  /* ---- Badge Utilities ---- */
+  .stp-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.125rem 0.625rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  /* ---- Gradient Backgrounds ---- */
+  .hero-gradient-clean {
+    background: var(--gradient-hero-mesh), var(--bg-canvas);
+  }
+
+  .gradient-brand-section {
+    background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-700) 40%, #1d4ed8 100%);
+  }
+
+  /* ---- Mobile Bottom Nav ---- */
+  .stp-mobile-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-sticky);
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-top: 1px solid rgba(226, 232, 240, 0.7);
+    /* Safe area inset untuk notch & Dynamic Island */
+    padding-bottom: max(env(safe-area-inset-bottom), 0.25rem);
+    padding-top: 0.375rem;
+    box-shadow: 0 -4px 24px rgba(15, 23, 42, 0.06), 0 -1px 0 rgba(226,232,240,0.8);
+  }
+
+  /* Padding konten halaman untuk bottom nav di mobile */
+  .mobile-content-pad {
+    padding-bottom: calc(4.5rem + max(env(safe-area-inset-bottom), 0.5rem));
+  }
+
+  /* ---- Gradient Text --- */
+  .gradient-text-brand {
+    background: linear-gradient(135deg, var(--primary-600) 0%, #1d4ed8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ---- Divider --- */
+  .stp-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border-default) 30%, var(--border-default) 70%, transparent);
+  }
+
+  /* ---- Scrollbar hide --- */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* ---- Focus ring override untuk branded components --- */
+  .focus-ring-brand:focus-visible {
+    outline: 2px solid var(--primary-600);
+    outline-offset: 2px;
+  }
+}
+
+/* =========================================================================
+   COMPONENT LAYER — Opinionated UI Components
+   ========================================================================= */
+@layer components {
+
+  /* ---- Navbar Scroll Shrink State ---- */
+  .navbar-scrolled {
+    height: 52px !important;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* ---- Stats Counter Digit ---- */
+  .stat-digit {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--primary-700);
+  }
+
+  /* ---- Section Label (eyebrow atas heading) ---- */
+  .section-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--primary-600);
+    margin-bottom: 0.5rem;
+  }
+
+  /* ---- CTA Card (gradient biru) ---- */
+  .cta-gradient-card {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-700) 40%, #1d4ed8 100%);
+    border-radius: var(--radius-3xl);
+    color: white;
+  }
+
+  .cta-gradient-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.12) 0%, transparent 50%),
+      radial-gradient(ellipse at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 40%);
+    pointer-events: none;
+  }
+
+  /* ---- Skeleton Loader (selalu TERANG) ---- */
+  .skeleton {
+    background: var(--bg-surface-muted);
+    border-radius: var(--radius-lg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.8) 50%,
+      transparent 100%
+    );
+    animation: shimmerSlide 1.8s ease-in-out infinite;
+  }
+
+  /* ---- Klaster Filter Pill (homepage) ---- */
+  .klaster-pill {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 0.4375rem 1rem;
+    border-radius: var(--radius-xl);
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid var(--border-default);
+    background-color: var(--bg-surface);
+    color: var(--text-body);
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-smooth);
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  .klaster-pill:hover:not(.klaster-pill-active) {
+    background-color: var(--bg-surface-hover);
+    border-color: var(--border-blue);
+    color: var(--primary-700);
+  }
+
+  .klaster-pill-active {
+    background-color: var(--primary-50);
+    border-color: rgba(2, 132, 199, 0.5);
+    color: var(--primary-700);
+    font-weight: 700;
+    box-shadow: var(--shadow-xs);
+  }
+
+  .klaster-pill-all-active {
+    background-color: var(--primary-600);
+    border-color: var(--primary-600);
+    color: white;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
+  }
+
+  /* ---- Mobile Nav Item ---- */
+  .mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    min-width: 3.25rem;
+    min-height: 2.75rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.625rem;
+    font-weight: 500;
+    color: var(--text-subtle);
+    transition: color var(--duration-fast) var(--ease-smooth);
+    position: relative;
+    cursor: pointer;
+    text-decoration: none;
+    user-select: none;
+  }
+
+  .mobile-nav-item.active {
+    color: var(--primary-700);
+    font-weight: 700;
+  }
+
+  .mobile-nav-item .nav-icon-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius-xl);
+    margin-bottom: 0.125rem;
+    transition: background-color var(--duration-fast) var(--ease-smooth);
+  }
+
+  .mobile-nav-item.active .nav-icon-wrap {
+    background-color: var(--primary-50);
+  }
+
+  /* ---- Card image overlay gradient ---- */
+  .card-image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 40%,
+      rgba(15, 23, 42, 0.55) 100%
+    );
+  }
+
+  /* ---- Prose / Detail Katalog ---- */
+  .detail-prose p {
+    color: var(--text-body);
+    line-height: 1.75;
+    font-size: 0.9375rem;
+    margin-bottom: 1rem;
+  }
+
+  .detail-prose ul {
+    list-style: disc;
+    padding-left: 1.25rem;
+    space-y: 0.375rem;
+    color: var(--text-body);
+  }
+}
+
+/* =========================================================================
+   KEYFRAME ANIMATIONS — Seluruh definisi animasi dipusatkan di sini
+   ========================================================================= */
+
+/* Shimmer untuk skeleton */
+@keyframes shimmerSlide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+/* Fade In Up — elemen masuk dari bawah */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Fade In Scale — elemen muncul dengan scale */
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Slide In Left */
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Slide In Right */
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Gentle Float — hover/hero element */
+@keyframes floatGentle {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+/* Pulse Glow — CTA/hero accent */
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 var(--primary-glow-strong); }
+  50%       { box-shadow: 0 0 0 14px rgba(2, 132, 199, 0); }
+}
+
+/* Badge Pop — badge muncul dengan spring */
+@keyframes badgePop {
+  0%   { transform: scale(0.7); opacity: 0; }
+  70%  { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Gradient Shift — hero ambient gradient bergerak */
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+
+/* Border Glow Pulse — card border menyala */
+@keyframes borderGlow {
+  0%, 100% { border-color: var(--border-default); }
+  50%       { border-color: var(--border-blue); box-shadow: var(--glow-card-hover); }
+}
+
+/* Spin — loading indicator */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Ripple — efek klik pada button */
+@keyframes rippleEffect {
+  to { transform: scale(4); opacity: 0; }
+}
+
+/* =========================================================================
+   ANIMATION UTILITY CLASSES
+   ========================================================================= */
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s var(--ease-spring) both;
+}
+
+.animate-fade-in-scale {
+  animation: fadeInScale 0.4s var(--ease-spring) both;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.4s var(--ease-spring) both;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.4s var(--ease-spring) both;
+}
+
+.animate-float {
+  animation: floatGentle 4s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2.5s ease-in-out infinite;
+}
+
+.animate-badge-pop {
+  animation: badgePop 0.4s var(--ease-bounce) both;
+}
+
+.animate-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255,255,255,0) 0,
+    rgba(255,255,255,0.6) 50%,
+    rgba(255,255,255,0) 100%
+  );
+  animation: shimmerSlide 2s ease-in-out infinite;
+}
+
+/* Delay helpers untuk stagger CSS biasa */
+.delay-75  { animation-delay: 75ms; }
+.delay-100 { animation-delay: 100ms; }
+.delay-150 { animation-delay: 150ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* =========================================================================
+   RESPONSIVE OVERRIDES
+   ========================================================================= */
+
+/* Konten utama selalu ada space untuk bottom nav di mobile */
+@media (max-width: 767px) {
+  .main-with-bottom-nav {
+    padding-bottom: calc(4.5rem + max(env(safe-area-inset-bottom), 0.5rem));
+  }
+}
+
+/* Desktop: hilangkan padding bottom nav */
+@media (min-width: 768px) {
+  .main-with-bottom-nav {
+    padding-bottom: 0;
+  }
+}

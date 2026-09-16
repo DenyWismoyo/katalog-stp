@@ -1,0 +1,64 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAtasanOrAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.role in ['admin', 'atasan'] ||
+        (request.auth.token.email != null && request.auth.token.email.matches('.*@surakarta\\.go\\.id'))
+      );
+    }
+
+    // ========================================================================
+    // 1. NAMESPACE RESMI: KATALOG DIGITAL STP (/katalog-stp/)
+    // ========================================================================
+    match /katalog-stp/{allPaths=**} {
+      // Pembacaan: Terbuka untuk umum (publik showcase produk/inovasi STP)
+      allow read: if true;
+
+      // Unggahan: Wajib login (Admin STP atau Tenant resmi), maks 15 MB
+      allow write: if isAuthenticated() &&
+        request.resource.size <= 15 * 1024 * 1024 &&
+        request.resource.contentType.matches('image/.*|application/pdf');
+
+      // Penghapusan: Wajib login
+      allow delete: if isAuthenticated();
+    }
+
+    // ========================================================================
+    // 2. NAMESPACE RESMI: PRESENSI & LKH ASN (/presensi-pegawai/)
+    // ========================================================================
+    match /presensi-pegawai/{orgId}/{userId}/{allPaths=**} {
+      allow read: if isAuthenticated() && (
+        request.auth.uid == userId || isAtasanOrAdmin()
+      );
+
+      allow write: if isOwner(userId) &&
+        request.resource.size <= 15 * 1024 * 1024 &&
+        request.resource.contentType.matches('image/.*|application/pdf|application/vnd.openxmlformats.*|application/msword');
+
+      allow delete: if isOwner(userId) || (isAuthenticated() && request.auth.token.role == 'admin');
+    }
+
+    // Fallback path hierarki legacy ASN
+    match /{orgId}/{userId}/{allPaths=**} {
+      allow read: if isAuthenticated() && (
+        request.auth.uid == userId || isAtasanOrAdmin()
+      );
+
+      allow write: if isOwner(userId) &&
+        request.resource.size <= 15 * 1024 * 1024 &&
+        request.resource.contentType.matches('image/.*|application/pdf|application/vnd.openxmlformats.*|application/msword');
+
+      allow delete: if isOwner(userId) || (isAuthenticated() && request.auth.token.role == 'admin');
+    }
+  }
+}

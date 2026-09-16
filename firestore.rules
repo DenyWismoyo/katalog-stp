@@ -1,0 +1,53 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Koleksi Katalog Produk & Riset Inovasi STP (katalog_items & legacy alias katalog)
+    match /katalog_items/{itemId} {
+      allow read: if resource.data.status == 'published' || isAuthenticated();
+      allow write: if isAuthenticated();
+    }
+    match /katalog/{katalogId} {
+      allow read: if resource.data.status == 'published' || isAuthenticated();
+      allow write: if isAuthenticated();
+    }
+
+    // Koleksi Profil Tenant / Inovator
+    match /tenant/{tenantId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+    match /tenants/{tenantId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    // Koleksi Permohonan & Order (orders_inquiries & legacy inquiries)
+    match /orders_inquiries/{orderId} {
+      allow create: if request.resource.data.senderEmail != null &&
+                       request.resource.data.message != null;
+      allow read, update, delete: if isAuthenticated();
+    }
+    match /inquiries/{inquiryId} {
+      allow create: if request.resource.data.senderEmail != null &&
+                       request.resource.data.message != null;
+      allow read, update, delete: if isAuthenticated();
+    }
+
+    // Riwayat Log dan Audit Trail Pesanan
+    match /order_logs/{logId} {
+      allow read: if resource.data.isPublicToUser == true || isAuthenticated();
+      allow write: if isAuthenticated();
+    }
+
+    // Koleksi Kategori & Klaster
+    match /klaster/{klasterId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+  }
+}
