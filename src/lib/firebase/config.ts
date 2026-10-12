@@ -15,10 +15,11 @@ const firebaseConfig = {
 
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig)
 
-// Menggunakan Named Database terisolasi khusus Katalog STP
-const databaseId = process.env.NEXT_PUBLIC_FIREBASE_DATABASE_ID || 'katalog-stp'
+// Menggunakan database (default) atau named database jika dikonfigurasi
+const rawDatabaseId = process.env.NEXT_PUBLIC_FIREBASE_DATABASE_ID || '(default)'
+const databaseId = rawDatabaseId === '(default)' ? undefined : rawDatabaseId
 
 export const auth = getAuth(app)
-export const db = getFirestore(app, databaseId)
+export const db = databaseId ? getFirestore(app, databaseId) : getFirestore(app)
 export const storage = getStorage(app)
 export default app

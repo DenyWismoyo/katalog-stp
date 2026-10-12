@@ -10,10 +10,11 @@ import { Search, ArrowLeft, Building, Wrench, Sparkles, SlidersHorizontal } from
 
 const CATEGORY_TABS: { id: FacilityCategory | 'all'; label: string }[] = [
   { id: 'all', label: 'Semua Fasilitas' },
-  { id: 'manufaktur_cnc', label: 'Permesinan CNC' },
+  { id: 'studio_kreatif', label: 'Studio Kreatif & Podcast' },
+  { id: 'diklat_hall', label: 'Ruang Kelas & Pertemuan' },
+  { id: 'ai_iot_lab', label: 'AI Supercomputer Lab' },
   { id: 'wet_welding', label: 'Wet Welding Tank' },
-  { id: 'ai_iot_lab', label: 'AI Supercomputer' },
-  { id: 'diklat_hall', label: 'Auditorium & Diklat' },
+  { id: 'manufaktur_cnc', label: 'Permesinan CNC' },
 ]
 
 export default function FasilitasExplorerPage() {

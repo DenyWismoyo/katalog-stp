@@ -51,12 +51,13 @@ function getAdminApp(): App {
   return adminApp
 }
 
-// Named database khusus untuk Katalog Digital STP
-const databaseId = process.env.FIREBASE_DATABASE_ID || 'katalog-stp'
+// Database khusus atau (default)
+const rawDatabaseId = process.env.FIREBASE_DATABASE_ID || '(default)'
+const databaseId = rawDatabaseId === '(default)' ? undefined : rawDatabaseId
 
 export const adminDb = new Proxy({} as ReturnType<typeof getFirestore>, {
   get(_target, prop) {
-    const db = getFirestore(getAdminApp(), databaseId)
+    const db = databaseId ? getFirestore(getAdminApp(), databaseId) : getFirestore(getAdminApp())
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const val = (db as any)[prop]
     return typeof val === 'function' ? val.bind(db) : val
